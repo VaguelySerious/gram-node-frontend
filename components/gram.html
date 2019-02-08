@@ -1,0 +1,129 @@
+<div class="gram{open ? ' open' : ''}">
+
+  <!-- Open -->
+  {#if open}
+    <div class="gram-chat">
+
+      <!-- Header -->
+      <div class="gram-chat-header" on:click="close()">
+        <p class="gram-chat-header-title">{options.title}</p>
+        <span class="gram-chat-header-close">X</span>
+      </div>
+
+      <!-- History -->
+      <ul class="gram-chat-history">
+        {#each messages as m}
+          <li class="gram-chat-entry">{m.message}</li>
+        {:else}
+          <li>No messages yet</li>
+        {/each}
+          
+        {#if sending}
+          Sending
+        {/if}
+        {#if error}
+          {error}
+        {/if}
+      </ul>
+
+      <!-- Input -->
+      <div class="gram-chat-input">
+        <input class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text">
+      </div>
+
+    </div>
+
+  <!-- Closed -->
+  {:else}
+  {/if}
+</div>
+
+<script>
+import axios from 'axios';
+
+export default {
+  methods: {
+    onKeyUp: function(e) {
+      const input = this.refs.input;
+      if (e.key === 'Enter') {
+        this.send({message: input.value});
+        input.value = '';
+      }
+    },
+    send: function(message) {
+      // Pass message once through all the callbacks
+      this.get().callbacks.forEach(e => e(message));
+      const {user, apiKey, lastID} = this.get();
+      axios({
+        method: 'post',
+        url: `${this.get().baseURL}/messages`,
+        params: {user, apiKey},
+        data: message
+      })
+      .then(res => {
+        this.push(res.data);
+        console.log(res.data);
+        this.set({error: '', lastID: lastID + 1});
+      })
+      .catch(res => {
+        this.set({error: "Couldn't send message!"});
+      }).then(()=>{
+        this.set({sending: false});
+      });
+      this.set({sending: true});
+    },
+    push: function(message) {
+      console.log('Adding', message);
+      const msgs = this.get().messages;
+      const { lastID } = this.get();
+      if (message.id && message.id > lastID) {
+        this.set({lastID: message.id});
+      }
+      // Prevent double messages when polling/sending at a similar time
+      if (!msgs.find(m => m.timestamp === message.timestamp)) {
+        console.log('Displaying', message);        
+        msgs.push(message);
+        this.set({messages: msgs});
+      }
+    },
+    pull: function() {
+      const e = this.get().messages;
+      const {user, apiKey, lastID} = this.get();
+      axios.get(`${this.get().baseURL}/messages`, {
+        params: {lastID, user, apiKey}
+      }).then(res => {
+        res.data.forEach((d) => {
+          this.push(d);
+        });
+        this.set({error: ''});
+      })
+      .catch(res => {
+        this.set({error: "No connection to server"});
+      });
+    },
+    poll: function(pollTime=3000) {
+      clearInterval(this.get().inv);
+      if (pollTime) {
+        const inv = setInterval(this.pull.bind(this), pollTime);
+        this.set({inv});
+      }
+    },
+
+    callback: function(cb) {
+      const cbs = this.get().callbacks;
+      cbs.push(cb);
+      this.set({callbacks: cbs});
+    },
+    clearCallbacks: function() {
+      this.set({callbacks: []});
+    },
+    close: function () {
+      console.log('Closing');
+      this.set({open: false});
+    },
+    open: function () {
+      this.set({open: true});
+    },
+  }
+};
+</script>
