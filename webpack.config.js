@@ -1,27 +1,30 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const mode = process.env.NODE_ENV || 'development';
-const prod = mode === 'production';
+const isProd = mode === 'production';
+require('dotenv').config();
+const env = process.env;
 
 module.exports = {
   entry: './index.js',
-  devtool: prod ? false: 'source-map',
+  devtool: isProd ? false: 'source-map',
   mode: mode,
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, 'dist')
   },
   devServer: {
-    contentBase: '../dist',
+    contentBase: 'dist',
     hot: true
   },
   plugins: [
-    new CleanWebpackPlugin(['../dist']),
-    // new HtmlWebpackPlugin({
-    //   title: 'Hot Module Replacement'
-    // }),
+    // new CleanWebpackPlugin(['dist']),
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(isProd),
+      BASE_URL: env.BASE_URL,
+      TEST_API_KEY: env.TEST_API_KEY
+    }),
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {

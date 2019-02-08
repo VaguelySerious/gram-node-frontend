@@ -1,25 +1,24 @@
 {
   "name": "gram-frontend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Frontend for the Gram Telegram web client",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "serve": "webpack-dev-server --open",
     "watch": "webpack --watch",
-    "prod": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prod": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simonfrey/gram.git"
+    "url": "git+https://github.com/vaguelyserious/gram-fronetnd.git"
   },
   "keywords": [
     "Telegram",
     "Gram",
     "Chat"
   ],
-  "author": "Peter Wielander & Simon Frey",
+  "author": "Peter Wielander",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/simonfrey/gram/issues"
@@ -32,6 +31,7 @@
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
     "css-loader": "^2.1.0",
+    "dotenv": "^6.2.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
