@@ -1,0 +1,26 @@
+///
+/// Gram-Frontend Demo Styles
+/// PUPUCK SCSS Boilerplate
+///
+
+$ff-default:  'Radnika Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+$ff-text:     $ff-default;
+$ff-display:  $ff-default;
+
+// Reset browser-specific styles
+@import "_reset";
+
+// Constants
+@import "base/_base";
+
+// Functions, mixins and placeholders
+@import "util/_util";
+
+// Structural layout elements
+@import "layout/_layout";
+
+// Reusable UI components
+@import "ui/_ui";
+
+// View-specific styles
+@import "views/_views";

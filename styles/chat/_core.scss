@@ -1,0 +1,10 @@
+.gram {
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  font: inherit;
+  font-size: $fs-base;
+  padding: $spacing-base;
+  position: fixed;
+  right: 0;
+}

@@ -1,0 +1,44 @@
+.gram-chat {
+  &-header {
+    background: $color-primary;
+    @include elevate(10);
+    color: colorInvert($color-primary);
+    cursor: pointer;
+    padding: $chat-padding;
+    position: relative;
+
+    &:active, &:focus {
+      background: darken($color-primary, 5%);
+    }
+
+    &-title {
+      cursor: initial;
+      font-size: $fs-base;
+      font-weight: $fw-bold;
+      margin: 0;
+    }
+
+    &-close {
+      background: darken($color-primary, 7.5%);
+      color: transparent;
+      height: 24px;
+      margin-right: 4px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      user-select: none;
+      width: 32px;
+
+      &::after {
+        border-bottom: 2px solid saturate(lighten($color-primary, 30%), 100%);
+        bottom: 5px;
+        content: '';
+        display: block;
+        left: 50%;
+        margin-left: -7px;
+        position: absolute;
+        width: 14px;
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+html {
+  font-size: $fs-document;
+}
+
+body {
+  font: $fw-normal #{$fs-base}/$lh-base $ff-text;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+}
+
+%headline {
+  font-weight: $fw-bold;
+  margin-top: 0;
+}
+
+h1 {
+  @extend %headline;
+}

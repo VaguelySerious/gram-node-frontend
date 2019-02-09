@@ -1,0 +1,14 @@
+.gram-chat-history {
+  align-items: flex-start;
+  background: $color-base;
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  justify-content: flex-start;
+  list-style: none;
+  margin: 0;
+  max-width: 100%;
+  overflow-y: auto;
+  padding: $spacing-base $spacing-base;
+  width: 100%;
+}

@@ -1,4 +1,4 @@
-<div class="gram{open ? ' open' : ''}">
+<div class="gram{open ? ' -open' : ''}">
 
   <!-- Open -->
   {#if open}
@@ -6,18 +6,29 @@
 
       <!-- Header -->
       <div class="gram-chat-header" on:click="close()">
-        <p class="gram-chat-header-title">{options.title}</p>
-        <span class="gram-chat-header-close">X</span>
+        <h2 class="gram-chat-header-title">{options.title}</h2>
+        <span class="gram-chat-header-close">Close</span>
       </div>
 
       <!-- History -->
       <ul class="gram-chat-history">
+        <li class="gram-chat-entry-group">
+          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
+          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
+          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
+          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
+          <p class="gram-chat-entry -sent">Message message</p>
+        </li>
         {#each messages as m}
-          <li class="gram-chat-entry">{m.message}</li>
+          <li class="gram-chat-entry-group">
+            <p class="gram-chat-entry">
+              <span class="gram-chat-entry-name">Geronimo</span>
+              {m.message}
+            </p>
+          </li>
         {:else}
-          <li>No messages yet</li>
+          <li class="gram-chat-empty">No messages yet</li>
         {/each}
-          
         {#if sending}
           Sending
         {/if}
@@ -28,7 +39,19 @@
 
       <!-- Input -->
       <div class="gram-chat-input">
-        <input class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text">
+        <textarea class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text" placeholder="Type here"></textarea>
+
+        <button type="button" class="gram-chat-input-button">
+          <svg class="gram-icon">
+            <use xlink:href="#gram-attachment" />
+          </svg>
+        </button>
+
+        <button type="button" class="gram-chat-input-button -send">
+          <svg class="gram-icon">
+            <use xlink:href="#gram-send" />
+          </svg>
+        </button>
       </div>
 
     </div>
@@ -36,6 +59,14 @@
   <!-- Closed -->
   {:else}
   {/if}
+
+  <button class="gram-button">
+    <svg class="gram-icon">
+      <use xlink:href="#gram-chat" />
+    </svg>
+
+    <span class="gram-button-notification">1</span>
+  </button>
 </div>
 
 <script>
@@ -81,7 +112,7 @@ export default {
       }
       // Prevent double messages when polling/sending at a similar time
       if (!msgs.find(m => m.timestamp === message.timestamp)) {
-        console.log('Displaying', message);        
+        console.log('Displaying', message);
         msgs.push(message);
         this.set({messages: msgs});
       }
