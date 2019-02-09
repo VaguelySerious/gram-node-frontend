@@ -7,39 +7,40 @@
       <!-- Header -->
       <div class="gram-chat-header" on:click="close()">
         <h2 class="gram-chat-header-title">{options.title}</h2>
+        <p class="gram-chat-header-text">Geronimo is online.</p>
         <span class="gram-chat-header-close">Close</span>
       </div>
 
       <!-- History -->
       <ul class="gram-chat-history">
-        <li class="gram-chat-entry-group">
-          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
-          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
-          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
-          <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
-          <p class="gram-chat-entry -sent">Message message</p>
-        </li>
         {#each messages as m}
           <li class="gram-chat-entry-group">
-            <p class="gram-chat-entry">
+            <p class="gram-chat-entry -received">
               <span class="gram-chat-entry-name">Geronimo</span>
               {m.message}
             </p>
           </li>
+          <!-- TODO: group common mesages so only one will have the arrow -->
+          <!-- <li class="gram-chat-entry-group">
+            <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
+          </li> -->
         {:else}
           <li class="gram-chat-empty">No messages yet</li>
         {/each}
-        {#if sending}
-          Sending
-        {/if}
         {#if error}
-          {error}
+          <span class="gram-chat-message -error">
+            {error}
+          </span>
         {/if}
+          <span class="gram-chat-message -error">
+            An unknown error occurred.
+          </span>
       </ul>
 
       <!-- Input -->
       <div class="gram-chat-input">
-        <textarea class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text" placeholder="Type here"></textarea>
+        <!-- TODO: Allow textarea to grow in size if user inputs stuff -->
+        <textarea class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text" placeholder="Type here&hellip;"></textarea>
 
         <button type="button" class="gram-chat-input-button">
           <svg class="gram-icon">
@@ -47,7 +48,12 @@
           </svg>
         </button>
 
-        <button type="button" class="gram-chat-input-button -send">
+
+        {#if sending}
+          <!-- TODO: add class '-sending to button' -->
+          <!-- Sending -->
+        {/if}
+        <button type="button" class="gram-chat-input-button -send -sending">
           <svg class="gram-icon">
             <use xlink:href="#gram-send" />
           </svg>

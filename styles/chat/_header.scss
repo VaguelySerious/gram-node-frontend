@@ -1,7 +1,6 @@
 .gram-chat {
   &-header {
     background: $color-primary;
-    @include elevate(10);
     color: colorInvert($color-primary);
     cursor: pointer;
     padding: $chat-padding;
@@ -18,6 +17,12 @@
       margin: 0;
     }
 
+    &-text {
+      cursor: initial;
+      font-size: $fs-x-small;
+      margin: 0;
+    }
+
     &-close {
       background: darken($color-primary, 7.5%);
       color: transparent;
@@ -28,6 +33,14 @@
       top: 0;
       user-select: none;
       width: 32px;
+
+      &:hover {
+        background: darken($color-primary, 6%);
+      }
+
+      &:active {
+        background: darken($color-primary, 10%);
+      }
 
       &::after {
         border-bottom: 2px solid saturate(lighten($color-primary, 30%), 100%);
