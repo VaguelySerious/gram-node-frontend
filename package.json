@@ -4,10 +4,10 @@
   "description": "Frontend for the Gram Telegram web client",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "serve": "webpack-dev-server --open",
-    "watch": "webpack --watch",
-    "prod": "webpack"
+    "build": "webpack --config webpack.dev.js",
+    "serve": "webpack-dev-server --config webpack.dev.js --open",
+    "watch": "webpack --watch --config webpack.dev.js",
+    "prod": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -19,11 +19,11 @@
     "Chat"
   ],
   "author": "Peter Wielander",
-  "license": "MIT",
+  "license": "GPL",
   "bugs": {
-    "url": "https://github.com/simonfrey/gram/issues"
+    "url": "https://github.com/VaguelySerious/gram-node-frontend/issues"
   },
-  "homepage": "https://github.com/simonfrey/gram#readme",
+  "homepage": "https://github.com/VaguelySerious/gram-node-frontend",
   "dependencies": {
     "axios": "^0.18.0",
     "uuid": "^3.3.2"
