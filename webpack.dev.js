@@ -24,8 +24,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(isProd),
-      BASE_URL: env.BASE_URL,
-      TEST_API_KEY: env.TEST_API_KEY
+      BASE_URL: JSON.stringify(env.BASE_URL),
+      TEST_API_KEY: JSON.stringify(env.TEST_API_KEY)
     }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin(),
