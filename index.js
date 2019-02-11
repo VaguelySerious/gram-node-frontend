@@ -50,13 +50,14 @@ window.onload = function () {
   window.chat = chat;
 
   // Open the window after 1 second and poll
-  // setTimeout(()=>{
+  chat.poll(3000);
+  setTimeout(()=>{
     // chat.open();
     // Then push a reminder after 3 seconds
-    // setTimeout(()=> {
-      // chat.push({message: 'Hey how can I help?'});
-    // }, 3000);
-  // }, 1000); 
+    setTimeout(()=> {
+      chat.push({message: 'Hey how can I help?'});
+    }, 3000);
+  }, 1000); 
 }
 
 // Hot loading quickfix
