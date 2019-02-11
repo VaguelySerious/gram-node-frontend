@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const mode = 'development';
+const mode = 'production';
+const isProd = true;
 const env = process.env;
-const isProd = false;
 
 require('dotenv').config();
 
@@ -22,13 +22,13 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(isProd),
-      BASE_URL: env.BASE_URL,
-      TEST_API_KEY: env.TEST_API_KEY
+      PRODUCTION: JSON.stringify(true),
+      BASE_URL: JSON.stringify(env.BASE_URL),
+      TEST_API_KEY: JSON.stringify(env.TEST_API_KEY)
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin(),
   ],
   module: {
     rules: [
