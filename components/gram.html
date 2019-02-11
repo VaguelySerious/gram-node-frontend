@@ -20,7 +20,7 @@
               {m.message}
             </p>
           </li>
-          <!-- TODO: group common mesages so only one will have the arrow -->
+          <!-- TODO: group common messages so only one will have the arrow -->
           <!-- <li class="gram-chat-entry-group">
             <p class="gram-chat-entry -sent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure dolor eos dolorem ipsum, deleniti officiis.</p>
           </li> -->
@@ -32,9 +32,6 @@
             {error}
           </span>
         {/if}
-          <span class="gram-chat-message -error">
-            An unknown error occurred.
-          </span>
       </ul>
 
       <!-- Input -->
@@ -54,7 +51,7 @@
           <!-- TODO: add class '-sending to button' -->
           <!-- Sending -->
         {/if}
-        <button type="button" class="gram-chat-input-button -send -sending">
+        <button type="button" class="{'gram-chat-input-button -send ' + (sending ? '-sending' : '')}">
           <svg class="gram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
             <title>Send</title>
             <path d="M4.1 28.4l21.2 8.4L55.8 5.9 4.1 28.4zm25 10.3l22.2 13.7 8.6-45-30.8 31.3z" />
@@ -69,7 +66,7 @@
   {:else}
   {/if}
 
-  <button class="gram-button">
+  <button class="gram-button" on:click="toggle()">
      <svg class="gram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <title>Chat</title>
       <path d="M42 7H22a20 20 0 0 0 0 40h2v10l12-10h6a20 20 0 0 0 0-40zM22.1 29.1a3 3 0 1 1-4.2-4.2 3.1 3.1 0 0 1 4.2 0A3 3 0 0 1 23 27a3 3 0 0 1-.9 2.1zm12 0a3 3 0 0 1-4.2-4.2 3.1 3.1 0 0 1 4.2 0 3 3 0 0 1 0 4.3zm12 0A3 3 0 0 1 41 27a3 3 0 0 1 .9-2.1 3.1 3.1 0 0 1 4.2 0 3 3 0 0 1 0 4.2z" />
@@ -85,8 +82,8 @@ import axios from 'axios';
 export default {
   methods: {
     onKeyUp: function(e) {
-      const input = this.refs.input;
       if (e.key === 'Enter') {
+        const input = this.refs.input;
         this.send({message: input.value});
         input.value = '';
       }
@@ -130,6 +127,7 @@ export default {
     pull: function() {
       const e = this.get().messages;
       const {user, apiKey, lastID} = this.get();
+      console.log('Pulling...');
       axios.get(`${this.get().baseURL}/messages`, {
         params: {lastID, user, apiKey}
       }).then(res => {
@@ -137,9 +135,11 @@ export default {
           this.push(d);
         });
         this.set({error: ''});
+        console.log('Pulled');
       })
       .catch(res => {
         this.set({error: "No connection to server"});
+        console.log('Setting error');
       });
     },
     poll: function(pollTime=3000) {
@@ -163,8 +163,13 @@ export default {
       this.set({open: false});
     },
     open: function () {
+      console.log('Opening');
       this.set({open: true});
     },
+    toggle: function() {
+      console.log('Toggling');
+      this.set({open: !this.get().open});
+    }
   }
 };
 </script>
