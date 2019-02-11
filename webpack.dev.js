@@ -1,10 +1,13 @@
 const path = require('path');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
-const mode = process.env.NODE_ENV || 'development';
-const isProd = mode === 'production';
-require('dotenv').config();
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const mode = 'development';
 const env = process.env;
+const isProd = false;
+
+require('dotenv').config();
 
 module.exports = {
   entry: './index.js',
@@ -19,13 +22,13 @@ module.exports = {
     hot: true
   },
   plugins: [
-    // new CleanWebpackPlugin(['dist']),
     new webpack.DefinePlugin({
       PRODUCTION: JSON.stringify(isProd),
-      BASE_URL: env.BASE_URL,
-      TEST_API_KEY: env.TEST_API_KEY
+      BASE_URL: JSON.stringify(env.BASE_URL),
+      TEST_API_KEY: JSON.stringify(env.TEST_API_KEY)
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin(),
   ],
   module: {
     rules: [
