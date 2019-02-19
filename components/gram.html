@@ -7,7 +7,7 @@
       <!-- Header -->
       <div class="gram-chat-header" on:click="close()">
         <h2 class="gram-chat-header-title">{options.title}</h2>
-        <p class="gram-chat-header-text">Geronimo is online.</p>
+        <p class="gram-chat-header-text">{options.name} is online.</p>
         <span class="gram-chat-header-close">Close</span>
       </div>
 
@@ -16,7 +16,9 @@
         {#each messages as m}
           <li class="gram-chat-entry-group">
             <p class="{'gram-chat-entry ' + (m.from_client ? '-sent' : '')}">
-              <span class="gram-chat-entry-name">Geronimo</span>
+              {#if !m.from_client}
+              <span class="gram-chat-entry-name">{options.name}</span>
+              {/if}
               {m.message}
             </p>
           </li>

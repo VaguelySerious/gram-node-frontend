@@ -14,6 +14,15 @@ Development server
 
 + `yarn serve` or `npm run serve`
 
+## Init production gram on your website
+```html
+<script defer src="path/to/main.js"></script>
+<script>window.onload = function () {window.Gram.initialize({
+    title: "[Title of the chat window]",
+    name: "[Support agent name]",
+    apiKey: "[YOUR APIKEY]"
+});}</script>
+```
 
 ## API
 
