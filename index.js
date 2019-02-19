@@ -37,28 +37,11 @@ window.Gram = {
         baseURL: BASE_URL
       }
     });
-    return instance;
+    instance.poll(500);
+    window.gramchat = instance;
   }
 };
 
-// Testing. This would be code inserted by the user.
-window.onload = function () {
-  const chat = window.Gram.initialize({
-    title: "Example Support Chat",
-    apiKey: TEST_API_KEY
-  });
-  window.chat = chat;
-
-  // Open the window after 1 second and poll
-  chat.poll(3000);
-  setTimeout(()=>{
-    // chat.open();
-    // Then push a reminder after 3 seconds
-    setTimeout(()=> {
-      chat.push({message: 'Hey how can I help?'});
-    }, 3000);
-  }, 1000); 
-}
 
 // Hot loading quickfix
 if (module.hot) {
