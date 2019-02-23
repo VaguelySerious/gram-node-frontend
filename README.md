@@ -1,44 +1,60 @@
 # Gram
 
+A chat window for your website that allows you to write and receive messages from Telegram. You can use this for implementing customer support chats or various other things.
+
 ## How to build
 
-Setup:
+Use Yarn or NPM:
 
-+ `yarn install` or `npm install`
++ `yarn install` or `npm install` for setup
++ `yarn prod` or `npm run prod` for building
++ `yarn serve` or `npm run serve` for developing
 
-Production build:
+To use it on your site, you can load the result of the production build like this:
 
-+ `yarn prod` or `npm run prod`
+```html
+<script defer src="path/to/output/main.js"></script>
+<script>
+window.onload = function () {
+  window.chat = Gram.initialize({
+    apiKey: "your-api-key",
+    // See below for other available options
+  });
+}
 
-Development server
+chat.open();
+// See below for other commands
+</script>
+```
 
-+ `yarn serve` or `npm run serve`
+## Available Options
+
+These are the options available to you when initializing the chat.
+
+|Name|Type|Default Value|Description|
+|-|-|-|-|
+|apiKey|string|undefined|Your API key|
+|title|string|"Support Chat"|Title of the chat window|
+|name|string|"Support"|Will be shown as `<name> is online` under the title|
 
 
 ## API
 
-*Open / Close*
-`chat.open()`
-`chat.close()`
-Open and close the window via script.
+These are the options available to you for interacting the the initialized chat.
+All of the following are called as instance methods of the chat object. For example, `chat.open()` can be found in this list as `open()`.
 
-*Push*
-`chat.push(message)`
-To put a message into the chat window directly.
+|Method|Description|
+|-|-|
+|open()/close()/toggle()|Controls the visibility state of the chat.|
+|push(message: Message)|Puts a message into the chat window.|
+|pull()|Retrieves new messages from the server.|
+|poll(ms: number)|Set the interval in milliseconds how often the window should check for new messages. Passing `0` will stop polling altogether, until the function is invoked again.|
+|callback(cb: Function)|TODO|
+|clearCallbacks()|TODO|
 
-*Pull*
-`chat.pull()`
-Manually refreshes messages.
+## Objects
 
-*Poll*
-`chat.poll(ms)`
-Set an interval for how often messages should be retrieved from the server in milisecond. Use `0` to turn this feature off. Default is 
-
-*Callbacks*
-`chat.callback(cb)`
-`chat.clearCallbacks()`
-
-*The message object*
+### Message object
 All the messages are stored internally as an object like follows:
 
 ```js
