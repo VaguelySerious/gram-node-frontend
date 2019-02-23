@@ -25,8 +25,3 @@ window.Gram = {
     return instance;
   }
 };
-
-// Hot loading quickfix
-if (module.hot) {
-  module.hot.accept('./index.js', function() {});
-}
