@@ -4,7 +4,8 @@ console.log('Executing test code');
 window.onload = function () {
   const chat = window.Gram.initialize({
     title: "Example Support Chat",
-    apiKey: TEST_API_KEY
+    apiKey: TEST_API_KEY,
+    name: 'Hans'
   });
   window.chat = chat;
 
