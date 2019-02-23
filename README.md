@@ -36,6 +36,7 @@ These are the options available to you when initializing the chat.
 |apiKey|string|undefined|Your API key|
 |title|string|"Support Chat"|Title of the chat window|
 |name|string|"Support"|Will be shown as `<name> is online` under the title|
+|enableAttachment|boolean|false|Shows the WIP attachment button|
 
 
 ## API
