@@ -10,11 +10,13 @@ const isProd = false;
 require('dotenv').config();
 
 module.exports = {
-  entry: './index.js',
-  devtool: isProd ? false: 'source-map',
+  entry: {
+    chat: './index.js',
+    test: './test.js'
+  },
+  devtool: isProd ? false : 'source-map',
   mode: mode,
   output: {
-    filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
@@ -28,7 +30,7 @@ module.exports = {
       TEST_API_KEY: JSON.stringify(env.TEST_API_KEY)
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin()
   ],
   module: {
     rules: [

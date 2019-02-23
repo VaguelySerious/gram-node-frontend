@@ -2,7 +2,6 @@
   "name": "gram-frontend",
   "version": "0.1.0",
   "description": "Frontend for the Gram Telegram web client",
-  "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.dev.js",
     "serve": "webpack-dev-server --config webpack.dev.js --open",

@@ -3,18 +3,16 @@ const webpack = require('webpack');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const mode = 'production';
-const isProd = true;
 const env = process.env;
 
 require('dotenv').config();
 
 module.exports = {
   entry: './index.js',
-  devtool: isProd ? false: 'source-map',
-  mode: mode,
+  devtool: false,
+  mode: 'production',
   output: {
-    filename: 'main.js',
+    filename: 'chat.js',
     path: path.resolve(__dirname, 'dist')
   },
   devServer: {
