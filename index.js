@@ -19,6 +19,7 @@ window.Gram = {
         callbacks: [],
         sending: false,
         lastID: 1,
+        unreadMessages: 0,
         baseURL: BASE_URL
       }
     });
