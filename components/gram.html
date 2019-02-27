@@ -39,7 +39,7 @@
       <!-- Input -->
       <div class="gram-chat-input">
         <!-- TODO: Allow textarea to grow in size if user inputs stuff -->
-        <textarea class="gram-chat-input-field" ref:input on:keyup="onKeyUp(event)" type="text" placeholder="Type here&hellip;"></textarea>
+        <textarea class="gram-chat-input-field" ref:input on:keyup="triggerOnEnter(event)" type="text" placeholder="Type here&hellip;"></textarea>
 
         {#if options.enableAttachment}
         <button type="button" class="gram-chat-input-button" on:click="attachment()">
@@ -50,7 +50,7 @@
         </button>
         {/if}
 
-        <button type="button" class="{'gram-chat-input-button -send ' + (sending ? '-sending' : '')}" on:click="triggerEnter()">
+        <button type="button" class="{'gram-chat-input-button -send ' + (sending ? '-sending' : '')}" on:click="triggerOnEnter()">
           <svg class="gram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
             <title>Send</title>
             <path d="M4.1 28.4l21.2 8.4L55.8 5.9 4.1 28.4zm25 10.3l22.2 13.7 8.6-45-30.8 31.3z" />
@@ -83,13 +83,11 @@ import axios from 'axios';
 
 export default {
   methods: {
-    onKeyUp: function(e) {
-      if (e.key === 'Enter') {
+    triggerOnEnter: function(e=null) {
+      if (e) {
         e.preventDefault();
-        this.triggerEnter();
+        if (e.key !== 'Enter') return;
       }
-    },
-    triggerEnter: function() {
       const input = this.refs.input;
       this.send({message: input.value});
       input.value = '';
