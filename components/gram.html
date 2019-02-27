@@ -13,7 +13,7 @@
 
       <!-- History -->
       <ul class="gram-chat-history">
-        {#each messages as m}
+        {#each Object.entries(messages) as m}
           <li class="gram-chat-entry-group">
             <p class="{'gram-chat-entry ' + (m.from_client ? '-sent' : '')}">
               {#if !m.from_client}
@@ -96,62 +96,69 @@ export default {
       this.set({error: "File attachments are not support yet"});
     },
     send: function(message) {
-      // Pass message once through all the callbacks
-      this.get().callbacks.forEach(e => e(message));
-      const {user, apiKey, lastID} = this.get();
-      axios({
-        method: 'post',
-        url: `${this.get().baseURL}/messages`,
-        params: {user, apiKey},
-        data: message
-      })
-      .then(res => {
-        this.push(res.data);
-        console.log(res.data);
-        this.set({error: '', lastID: lastID + 1});
-      })
-      .catch(res => {
-        this.set({error: "Couldn't send message!"});
-      }).then(()=>{
-        this.set({sending: false});
-      });
-      this.set({sending: true});
-      console.log('Sending', message);
+      this.set({error: 'Sending is disabled for now'});
+      // this.get().callbacks.forEach(e => e(message));
+      // const {user, apiKey, lastID} = this.get();
+      // console.log('Sending', message);
+      // this.set({sending: true});
+      // axios({
+      //   method: 'post',
+      //   url: `${this.get().baseURL}/messages`,
+      //   params: {user, apiKey},
+      //   data: message
+      // })
+      // .then(res => {
+      //   this.push(res.data);
+      //   console.log(res.data);
+      //   this.set({error: '', lastID: lastID + 1});
+      // })
+      // .catch(res => {
+      //   this.set({error: "Couldn't send message!"});
+      // }).then(()=>{
+      //   this.set({sending: false});
+      //   if (!inv) {
+      //     this.poll();
+      //   }
+      // });
     },
     push: function(message) {
-      console.log('Adding', message);
-      const msgs = this.get().messages;
-      const { lastID } = this.get();
-      if (message.id && message.id > lastID) {
-        this.set({lastID: message.id});
-      }
-      // Prevent double messages when polling/sending at a similar time
-      if (!msgs.find(m => m.timestamp === message.timestamp)) {
-        console.log('Displaying', message);
-        msgs.push(message);
-        this.set({messages: msgs});
+      const { messages } = this.get();
+      console.log(messages);
+      if (!messages[1]) {
+        message.id = 0;
+        messages['0'] = message;
+        this.set({messages, unreadMessages: 1});
       }
     },
     pull: function() {
-      const e = this.get().messages;
-      const {user, apiKey, lastID} = this.get();
+      const {messages, user, apiKey, lastID, inv} = this.get();
       console.log('Pulling...');
       axios.get(`${this.get().baseURL}/messages`, {
         params: {lastID, user, apiKey}
       }).then(res => {
-        res.data.forEach((d) => {
-          this.push(d);
+        // Update lastID and new messages
+        const unreadMessages = 0;
+        res.data.forEach((m) => {
+          if (!messages[m.id]) unreadMessages++
+          messages[m.id] = m;
+          this.set({lastID: m.id});
         });
-        this.set({error: ''});
-        console.log('Pulled');
+        this.set({unreadMessages, messages, error: ''});
+        if (!inv && messages[1]) {
+          console.log('polling autostart');
+          this.poll()
+        };
       })
       .catch(res => {
         this.set({error: "No connection to server"});
-        console.log('Setting error');
       });
     },
     poll: function(pollTime=3000) {
-      clearInterval(this.get().inv);
+      const { inv } = this.get();
+      if (typeof inv === 'number') {
+        clearInterval(inv);
+        this.set({inv: null});
+      }
       if (pollTime) {
         const inv = setInterval(this.pull.bind(this), pollTime);
         this.set({inv});
@@ -167,16 +174,13 @@ export default {
       this.set({callbacks: []});
     },
     close: function () {
-      console.log('Closing');
       this.set({open: false});
     },
     open: function () {
-      console.log('Opening');
-      this.set({open: true});
+      this.set({open: true, unreadMessages: 0});
     },
     toggle: function() {
-      console.log('Toggling');
-      this.set({open: !this.get().open});
+      this.set({open: !this.get().open, unreadMessages: 0});
     }
   }
 };

@@ -15,7 +15,7 @@ window.Gram = {
         user: generateUserID(),
         apiKey: options.apiKey,
         open: false,
-        messages: [],
+        messages: {},
         callbacks: [],
         sending: false,
         lastID: 1,
@@ -23,6 +23,7 @@ window.Gram = {
         baseURL: BASE_URL
       }
     });
+    instance.pull();
     return instance;
   }
 };

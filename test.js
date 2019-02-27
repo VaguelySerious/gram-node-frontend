@@ -5,17 +5,15 @@ window.onload = function () {
   const chat = window.Gram.initialize({
     title: "Example Support Chat",
     apiKey: TEST_API_KEY,
-    name: 'Hans'
+    name: 'Hans',
+    enableAttachment: false
   });
   window.chat = chat;
 
-  // Open the window after 1 second and poll
-  chat.poll(3000);
-  setTimeout(()=>{
-    // chat.open();
-    // Then push a reminder after 3 seconds
-    setTimeout(()=> {
-      chat.push({message: 'Hey how can I help?'});
-    }, 3000);
-  }, 1000); 
+  setTimeout(() => {
+    chat.push({message: 'Hey how can I help?'});
+  }, 1000)
+  setTimeout(()=> {
+    chat.open();
+  }, 3000);
 }
