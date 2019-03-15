@@ -13,7 +13,7 @@
 
       <!-- History -->
       <ul class="gram-chat-history">
-        {#each Object.entries(messages) as m}
+        {#each Object.values(messages) as m}
           <li class="gram-chat-entry-group">
             <p class="{'gram-chat-entry ' + (m.from_client ? '-sent' : '')}">
               {#if !m.from_client}
@@ -94,62 +94,58 @@ export default {
       input.value = '';
     },
     attachment: function () {
-      this.set({error: 'File attachments are not support yet'});
+      this.set({error: 'File attachments are not supported yet'});
     },
     send: function(message) {
-      this.set({error: 'Sending is disabled for now'});
-      // this.get().callbacks.forEach(e => e(message));
-      // const {user, apiKey, lastID} = this.get();
-      // console.log('Sending', message);
-      // this.set({sending: true});
-      // axios({
-      //   method: 'post',
-      //   url: `${this.get().baseURL}/messages`,
-      //   params: {user, apiKey},
-      //   data: message
-      // })
-      // .then(res => {
-      //   this.push(res.data);
-      //   console.log(res.data);
-      //   this.set({error: '', lastID: lastID + 1});
-      // })
-      // .catch(res => {
-      //   this.set({error: 'Couldn't send message!'});
-      // }).then(()=>{
-      //   this.set({sending: false});
-      //   if (!inv) {
-      //     this.poll();
-      //   }
-      // });
+      this.get().callbacks.forEach(e => e(message));
+      const {user, apiKey, baseURL} = this.get();
+      console.log('Sending', message);
+      this.set({sending: true});
+      axios({
+        method: 'post',
+        url: `${baseURL}/messages`,
+        params: {user, apiKey},
+        data: message
+      })
+      .then(res => {
+        this.push(res.data);
+        let { lastID } = this.get();
+        lastID = Math.max(lastID, res.data.id) || lastID;
+        this.set({error: '', lastID});
+      })
+      .catch(res => {
+        this.set({error: `Couldn't send message!`});
+      })
+      .then(()=>{
+        this.set({sending: false});
+        if (!this.get().inv) {
+          this.poll();
+        }
+      });
     },
     push: function(text) {
-      const message = {message: text};
+      const message = typeof text === 'string' ? {message: text, id: 0} : message;
       let { messages, unreadMessages } = this.get();
-      console.log(messages);
-      if (!messages[1]) {
-        message.id = 0;
-        messages[0] = message;
-        unreadMessages += 1;
-        this.set({messages, unreadMessages});
-      }
+      messages[message.id] = message;
+      this.set({messages, unreadMessages: unreadMessages + 1});
     },
     pull: function() {
-      const {messages, user, apiKey, lastID, inv} = this.get();
+      const {user, apiKey, lastID} = this.get();
       console.log('Pulling...');
       axios.get(`${this.get().baseURL}/messages`, {
         params: {lastID, user, apiKey}
       }).then(res => {
-        // Update lastID and new messages
-        const unreadMessages = 0;
+        const {unreadMessages, messages, inv, lastID} = this.get();
+        let newMessages = 0;
         res.data.forEach((m) => {
-          if (!messages[m.id]) unreadMessages++
+          if (!messages[m.id]) newMessages++;
           messages[m.id] = m;
           this.set({lastID: m.id});
         });
-        this.set({unreadMessages, messages, error: ''});
-        if (!inv && messages[1]) {
-          console.log('polling autostart');
-          this.poll()
+        this.set({unreadMessages: unreadMessages + newMessages, messages, error: ''});
+        if (!inv && res.data.length > 0) {
+          this.poll();
+          this.open();
         };
       })
       .catch(res => {
