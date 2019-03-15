@@ -122,13 +122,15 @@ export default {
       //   }
       // });
     },
-    push: function(message) {
-      const { messages } = this.get();
+    push: function(text) {
+      const message = {message: text};
+      let { messages, unreadMessages } = this.get();
       console.log(messages);
       if (!messages[1]) {
         message.id = 0;
-        messages['0'] = message;
-        this.set({messages, unreadMessages: 1});
+        messages[0] = message;
+        unreadMessages += 1;
+        this.set({messages, unreadMessages});
       }
     },
     pull: function() {
