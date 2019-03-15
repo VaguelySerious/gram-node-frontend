@@ -1,21 +1,20 @@
-import './styles/chat.scss';
-import './styles/demo.scss';
-import GramChatTemplate from './components/gram.html'
-import { generateUserID } from './js/utils.js';
+import "./styles/chat.scss";
+import "./styles/demo.scss";
+import GramChatTemplate from "./components/gram.html";
+import { getUserID } from "./js/utils.js";
 
 // Provide endpoint for initializing Gram
 window.Gram = {
-  initialize: function (options) {
-
+  initialize: function(options) {
     // Create chat with user options
     const instance = new GramChatTemplate({
-      target: options.target || document.querySelector('body'),
+      target: options.target || document.querySelector("body"),
       data: {
         options,
-        user: generateUserID(),
+        user: getUserID(),
         apiKey: options.apiKey,
         open: false,
-        messages: [],
+        messages: {},
         callbacks: [],
         sending: false,
         lastID: 1,
@@ -23,6 +22,7 @@ window.Gram = {
         baseURL: BASE_URL
       }
     });
+    instance.pull();
     return instance;
   }
 };

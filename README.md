@@ -1,5 +1,7 @@
 # Gram
 
+![](https://i.imgur.com/WdeYiFx.png)
+
 A chat window for your website that allows you to write and receive messages from Telegram. You can use this for implementing customer support chats or various other things.
 
 ## How to build
@@ -20,9 +22,8 @@ window.onload = function () {
     apiKey: "your-api-key",
     // See below for other available options
   });
+  chat.open();
 }
-
-chat.open();
 // See below for other commands
 </script>
 ```
@@ -47,11 +48,11 @@ All of the following are called as instance methods of the chat object. For exam
 |Method|Description|
 |-|-|
 |open()/close()/toggle()|Controls the visibility state of the chat.|
-|push(message: Message)|Puts a message into the chat window.|
-|pull()|Retrieves new messages from the server.|
-|poll(ms: number)|Set the interval in milliseconds how often the window should check for new messages. Passing `0` will stop polling altogether, until the function is invoked again.|
-|callback(cb: Function)|TODO|
-|clearCallbacks()|TODO|
+|push(message: String)|Transforms a string into a message and inserts it into the first position of the chat window. Automatically sets unread message count.|
+|pull(cb: Function)|Retrieves new messages from the server. If a callback is passed it will be called with a boolean that indicates whether new messages have been pulled or not.|
+|poll(ms: Number)|Set the interval in milliseconds how often the window should check for new messages. Passing `0` will stop polling altogether, until the function is invoked again.|
+|callback(cb: Function)|Add a function to the callback stack. Each time a message is sent by the user, it will pass through all added callbacks. Callbacks receive a message object that they can directly modify.|
+|clearCallbacks()|Removes all functions from the callback stack.|
 
 ## Objects
 
