@@ -1,5 +1,7 @@
 # Gram
 
+![](https://i.imgur.com/WdeYiFx.png)
+
 A chat window for your website that allows you to write and receive messages from Telegram. You can use this for implementing customer support chats or various other things.
 
 ## How to build
@@ -20,9 +22,8 @@ window.onload = function () {
     apiKey: "your-api-key",
     // See below for other available options
   });
+  chat.open();
 }
-
-chat.open();
 // See below for other commands
 </script>
 ```
