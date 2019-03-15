@@ -84,11 +84,12 @@ import axios from 'axios';
 export default {
   methods: {
     triggerOnEnter: function(e=null) {
+      const input = this.refs.input
       if (e) {
         e.preventDefault();
         if (e.key !== 'Enter') return;
+        input.value = input.value.slice(0, -1);
       }
-      const input = this.refs.input;
       this.send({message: input.value});
       input.value = '';
     },
