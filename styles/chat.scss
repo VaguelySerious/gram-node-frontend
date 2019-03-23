@@ -4,7 +4,9 @@
 ///
 
 // Reset browser-specific styles
-@import "_reset";
+.gram {
+  @import "_reset";
+}
 
 // Constants
 @import "base/_base";
