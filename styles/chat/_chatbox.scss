@@ -44,6 +44,7 @@
     &-button {
       -webkit-appearance: none;
       align-items: center;
+      background: transparent;
       border-radius: 0;
       border: 0;
       color: lighten($color-text, 35%);

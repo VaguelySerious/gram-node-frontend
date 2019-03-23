@@ -1,5 +1,5 @@
 import "./styles/chat.scss";
-import "./styles/demo.scss";
+// import "./styles/demo.scss";
 import GramChatTemplate from "./components/gram.html";
 import { getUserID } from "./js/utils.js";
 

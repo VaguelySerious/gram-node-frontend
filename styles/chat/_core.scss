@@ -1,10 +1,51 @@
 .gram {
+  box-sizing: border-box;
   bottom: 0;
   display: flex;
   flex-direction: column;
-  font: inherit;
-  font-size: $fs-base;
+  font: $fw-normal #{$fs-base}/$lh-base $ff-text;
   padding: $spacing-base;
   position: fixed;
   right: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga" on;
+
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+
+  button {
+    svg {
+      height: $fs-x-large;
+      width: $fs-x-large;
+      vertical-align: bottom;
+    }
+  }
+
+  input {
+    &::placeolder {
+      color: $color-soft;
+    }
+  }
+
+  p {
+    margin: 0 0 0.5em;
+  }
+
+  svg {
+    color: currentColor;
+    max-height: 100%;
+    max-width: 100%;
+
+    * {
+      fill: currentColor;
+
+      &[stroke] {
+        fill: none;
+        stroke: currentColor;
+      }
+    }
+  }
 }
