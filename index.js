@@ -1,22 +1,25 @@
 import "./styles/chat.scss";
 // import "./styles/demo.scss";
 import GramChatTemplate from "./components/gram.html";
-import { getUserID } from "./js/utils.js";
+import { getUserID, objectFallback } from "./js/utils.js";
+import defaultSettings from "./js/defaultSettings.js";
 
 // Provide endpoint for initializing Gram
 window.Gram = {
-  initialize: function(options) {
-    // Create chat with user options
+  initialize: function(settings) {
+    settings = objectFallback(settings, defaultSettings);
     const instance = new GramChatTemplate({
-      target: options.target || document.querySelector("body"),
+      target: document.querySelector(settings.target || "body"),
       data: {
-        options,
+        apiKey: settings.apiKey,
+        options: settings.options,
+        locales: settings.locales,
+        styles: settings.styles,
         user: getUserID(),
-        apiKey: options.apiKey,
         open: false,
+        sending: false,
         messages: {},
         callbacks: [],
-        sending: false,
         lastID: 1,
         unreadMessages: 0,
         baseURL: BASE_URL
