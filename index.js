@@ -9,7 +9,7 @@ window.Gram = {
   initialize: function(settings) {
     settings = objectFallback(settings, defaultSettings);
     const instance = new GramChatTemplate({
-      target: settings.target,
+      target: document.querySelector(settings.target),
       data: {
         apiKey: settings.apiKey,
         options: settings.options,
