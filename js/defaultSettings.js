@@ -1,6 +1,6 @@
 export default {
   apiKey: "",
-  target: "body",
+  target: "body", // can be '.some-class' or '#some-id'
   locales: {
     title: "Example Support Chat",
     name: "Hans",
@@ -13,6 +13,6 @@ export default {
     enableAttachment: false
   },
   styles: {
-    // Nothing yet
+    // Available options coming soon
   }
 };
