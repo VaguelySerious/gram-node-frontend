@@ -83,7 +83,11 @@ export default {
       const input = this.refs.input
       if (e) {
         e.preventDefault();
-        if (e.key !== 'Enter') return;
+        if (e.key !== 'Enter') {
+          input.style.height = 0;
+          input.style.height = input.scrollHeight + 'px';
+          return;
+        }
         input.value = input.value.slice(0, -1);
       }
       this.send({message: input.value});
