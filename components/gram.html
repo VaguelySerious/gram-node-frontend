@@ -1,7 +1,7 @@
 <div class="gram{open ? ' -open' : ''}">
 
-  <!-- Open -->
-  {#if open}
+    <audio ref:notify_sound src="https://notificationsounds.com/message-tones/appointed-529/download/mp3" preload="auto"></audio>
+
     <div class="gram-chat">
 
       <!-- Header -->
@@ -12,7 +12,7 @@
       </div>
 
       <!-- History -->
-      <ul class="gram-chat-history">
+      <ul class="gram-chat-history" ref:history>
         {#each Object.values(messages) as m}
           <li class="gram-chat-entry-group">
             <p class="{'gram-chat-entry ' + (m.from_client ? '-sent' : '')}">
@@ -60,10 +60,6 @@
       </div>
 
     </div>
-
-  <!-- Closed -->
-  {:else}
-  {/if}
 
   <button class="gram-button" on:click="toggle()">
      <svg class="gram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -133,6 +129,7 @@ export default {
       let { messages, unreadMessages } = this.get();
       messages[message.id] = message;
       this.set({messages, unreadMessages: unreadMessages + 1});
+      this.refs.history.scroll(0,99999999);
     },
     pull: function() {
       const {user, apiKey, lastID, baseURL, messages} = this.get();
@@ -148,6 +145,10 @@ export default {
           this.set({lastID: m.id});
         });
         this.set({unreadMessages: unreadMessages + newMessages, messages, error: ''});
+        if (newMessages > 0) {
+          this.refs.notify_sound.play();
+          this.refs.history.scroll(0,99999999);
+        }
         if (!inv && res.data.length > 0) {
           this.poll();
           this.open();
