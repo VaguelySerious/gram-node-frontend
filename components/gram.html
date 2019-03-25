@@ -6,8 +6,8 @@
 
       <!-- Header -->
       <div class="gram-chat-header" on:click="close()">
-        <h2 class="gram-chat-header-title">{options.title}</h2>
-        <p class="gram-chat-header-text">{options.name} is online.</p>
+        <h2 class="gram-chat-header-title">{locales.title}</h2>
+        <p class="gram-chat-header-text">{locales.name} is online.</p>
         <span class="gram-chat-header-close">Close</span>
       </div>
 
@@ -17,7 +17,7 @@
           <li class="gram-chat-entry-group">
             <p class="{'gram-chat-entry ' + (m.from_client ? '-sent' : '')}">
               {#if !m.from_client}
-              <span class="gram-chat-entry-name">{options.name}</span>
+              <span class="gram-chat-entry-name">{locales.name}</span>
               {/if}
               {m.message}
             </p>
@@ -108,13 +108,18 @@ export default {
         data: message
       })
       .then(res => {
-        this.push(res.data);
-        let { lastID } = this.get();
-        lastID = Math.max(lastID, res.data.id) || lastID;
-        this.set({error: '', lastID});
+        try {
+          this.push(res.data);
+          let { lastID } = this.get();
+          lastID = Math.max(lastID, res.data.id) || lastID;
+          this.set({error: '', lastID});
+        } catch (e) {
+          console.log(e);
+          throw e;
+        }
       })
       .catch(res => {
-        this.set({error: `Couldn't send message!`});
+        this.set({error: this.get().locales.errors.couldNotSend});
       })
       .then(()=>{
         this.set({sending: false});
@@ -124,15 +129,15 @@ export default {
       });
     },
     push: function(text) {
-      const message = typeof text === 'string' ? {message: text, id: 0} : message;
+      const message = typeof text === 'string' ? {message: text, id: 0} : text;
       let { messages, unreadMessages } = this.get();
       messages[message.id] = message;
       this.set({messages, unreadMessages: unreadMessages + 1});
     },
     pull: function() {
-      const {user, apiKey, lastID} = this.get();
-      console.log('Pulling...');
-      axios.get(`${this.get().baseURL}/messages`, {
+      const {user, apiKey, lastID, baseURL, messages} = this.get();
+      console.log('Pulling');
+      axios.get(`${baseURL}/messages`, {
         params: {lastID, user, apiKey}
       }).then(res => {
         const {unreadMessages, messages, inv, lastID} = this.get();
@@ -149,7 +154,7 @@ export default {
         };
       })
       .catch(res => {
-        this.set({error: 'No connection to server'});
+        this.set({error: this.get().locales.errors.couldNotPull});
       });
     },
     poll: function(pollTime=3000) {

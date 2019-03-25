@@ -18,3 +18,7 @@ export const getUserID = function() {
   }
   return user;
 };
+
+export const objectFallback = function(original, fallback) {
+  return Object.assign(fallback, original);
+};
