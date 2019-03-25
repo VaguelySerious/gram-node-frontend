@@ -1,7 +1,5 @@
 <div class="gram{open ? ' -open' : ''}">
 
-  <!-- Open -->
-  {#if open}
     <div class="gram-chat">
 
       <!-- Header -->
@@ -60,10 +58,6 @@
       </div>
 
     </div>
-
-  <!-- Closed -->
-  {:else}
-  {/if}
 
   <button class="gram-button" on:click="toggle()">
      <svg class="gram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
