@@ -76,6 +76,7 @@
 
 <script>
 import axios from 'axios';
+import { formatParams } from '../js/utils.js';
 
 export default {
   methods: {
@@ -108,17 +109,13 @@ export default {
         data: message
       })
       .then(res => {
-        try {
-          this.push(res.data);
-          let { lastID } = this.get();
-          lastID = Math.max(lastID, res.data.id) || lastID;
-          this.set({error: '', lastID});
-        } catch (e) {
-          console.log(e);
-          throw e;
-        }
+        this.push(res.data);
+        let { lastID } = this.get();
+        lastID = Math.max(lastID, res.data.id) || lastID;
+        this.set({error: '', lastID});
       })
-      .catch(res => {
+      .catch(e => {
+        console.error(e);
         this.set({error: this.get().locales.errors.couldNotSend});
       })
       .then(()=>{
@@ -134,6 +131,17 @@ export default {
       messages[message.id] = message;
       this.set({messages, unreadMessages: unreadMessages + 1});
       this.refs.history.scroll(0,99999999);
+    },
+    signal: function (message, isAsync) {
+      const {user, apiKey, baseURL} = this.get();
+      const req = new XMLHttpRequest();
+      const params = formatParams({user, apiKey});
+      req.open('POST', `${baseURL}/messages${params}`, isAsync);
+      req.setRequestHeader("Content-Type", "application/json");
+
+      // req.onreadystatechange = function () {
+      // };
+      req.send(JSON.stringify(message));
     },
     pull: function() {
       const {user, apiKey, lastID, baseURL, messages} = this.get();
