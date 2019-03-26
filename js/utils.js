@@ -22,3 +22,12 @@ export const getUserID = function() {
 export const objectFallback = function(original, fallback) {
   return Object.assign(fallback, original);
 };
+
+export const formatParams = function(params) {
+  return "?" + Object
+    .keys(params)
+    .map(function(key){
+      return key+"="+encodeURIComponent(params[key])
+    })
+    .join("&")
+}

@@ -1,12 +1,12 @@
 {
   "name": "gram-frontend",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Frontend for the Gram Telegram web client",
   "scripts": {
-    "build": "webpack --config webpack.dev.js",
-    "serve": "webpack-dev-server --config webpack.dev.js --open",
-    "watch": "webpack --watch --config webpack.dev.js",
-    "prod": "webpack --config webpack.prod.js"
+    "build": "webpack --mode development",
+    "serve": "webpack-dev-server --mode development --open",
+    "watch": "webpack --watch --mode development",
+    "prod": "webpack --mode production"
   },
   "repository": {
     "type": "git",

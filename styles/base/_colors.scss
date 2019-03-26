@@ -6,8 +6,25 @@ $color-soft:        #AAAAAA;
 $color-text:        #555555;
 $color-headlines:   #333333;
 
-$color-primary:     dodgerblue;
-$color-secondary:   rebeccapurple;
+$theme-color-wine:    #ED4C67;
+$theme-color-sky:     dodgerblue;
+$theme-color-jungle:  #009432;
+$theme-color-banana:  #FFC312;
+$theme-color-berry:   #833471;
+$theme-color-lagoon:  #12CBC4;
+$theme-color-grass:   #2ecc71;
+
+$theme-colors: (
+  'wine':   $theme-color-wine,
+  'sky':    $theme-color-sky,
+  'jungle': $theme-color-jungle,
+  'banana': $theme-color-banana,
+  'berry':  $theme-color-berry,
+  'lagoon': $theme-color-lagoon,
+  'grass':  $theme-color-grass
+);
+
+$color-primary:     map-get($theme-colors, 'sky');
 
 $color-error:       brickred;
 $color-success:     mediumseagreen;

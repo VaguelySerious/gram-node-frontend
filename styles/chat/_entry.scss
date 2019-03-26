@@ -3,6 +3,8 @@ $gram-chat-entry-border-radius: 4px;
 $gram-chat-entry-arrow-size: 6px;
 
 .gram-chat-entry {
+  $sent-bg: adjust-hue(darken($color-primary, 2.5%), -2.5%);
+
   background: $color-box;
   border-radius: $gram-chat-entry-border-radius;
   font-size: $fs-small;
@@ -16,7 +18,7 @@ $gram-chat-entry-arrow-size: 6px;
   }
 
   &.-sent {
-    background-color: darken($color-primary, 7.5%);
+    background-color: $sent-bg;
     color: colorInvert($color-primary);
     margin-left: auto;
     align-self: flex-end;
@@ -33,7 +35,6 @@ $gram-chat-entry-arrow-size: 6px;
     font-size: 0.85em;
     margin-bottom: 0.125em;
   }
-
 
   &-group {
     align-items: flex-start;
@@ -62,7 +63,7 @@ $gram-chat-entry-arrow-size: 6px;
 
     .-sent:last-child {
       &::before {
-        border-right-color: $color-primary;
+        border-right-color: $sent-bg;
         left: 100%;
         right: auto;
         transform: rotate(180deg);

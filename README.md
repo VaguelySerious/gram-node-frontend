@@ -67,7 +67,8 @@ All the messages are stored internally as an object like follows:
   id: 1,
   message: "Message text",
   from_client: false,
-  timestamp: 1552657082278718700
+  timestamp: 1552657082278718700,
+  hidden: false
 }
 ```
 
