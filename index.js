@@ -28,7 +28,9 @@ window.Gram = {
     instance.pull();
     // instance.signal({message: 'load'});
     window.addEventListener('beforeunload', () => {
-      instance.signal({message: 'unload', hidden: true}, false);
+      if (instance.inv) {
+        instance.signal({message: 'unload', hidden: true}, false);
+      }
     });
     return instance;
   }

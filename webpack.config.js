@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-// const dotenv = require('dotenv').config().parsed;
+require('dotenv').config();
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'production';
