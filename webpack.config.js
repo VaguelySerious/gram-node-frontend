@@ -8,10 +8,10 @@ const TerserPlugin = require('terser-webpack-plugin');
 // const dotenv = require('dotenv').config().parsed;
 
 module.exports = (env, argv) => {
-  const isProd = argv.mode === 'prduction';
+  const isProd = argv.mode === 'production';
   
   const config = {
-    entry: isProd ? 'index.js' : {
+    entry: isProd ? './index.js' : {
       chat: './index.js',
       test: './test.js'
     },
