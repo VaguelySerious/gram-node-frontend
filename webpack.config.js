@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
-const dotenv = require('dotenv').config().parsed;
+// const dotenv = require('dotenv').config().parsed;
 
 module.exports = (env, argv) => {
   const isProd = argv.mode === 'prduction';
@@ -28,8 +28,8 @@ module.exports = (env, argv) => {
       new CleanWebpackPlugin(['dist']),
       new webpack.DefinePlugin({
         PRODUCTION: JSON.stringify(isProd),
-        BASE_URL: JSON.stringify(dotenv.BASE_URL),
-        TEST_API_KEY: JSON.stringify(dotenv.TEST_API_KEY)
+        BASE_URL: JSON.stringify(process.env.BASE_URL),
+        TEST_API_KEY: JSON.stringify(process.env.TEST_API_KEY)
       }),
     ],
     module: {
