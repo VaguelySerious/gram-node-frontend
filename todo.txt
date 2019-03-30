@@ -1,0 +1,5 @@
++ Add custom coloring
++ Add different scrollbar
++ Different mobile design
++ Make entry point class based
++ When pulling, if a callback is passed it will be called with a boolean that indicates whether new messages have been pulled or not
