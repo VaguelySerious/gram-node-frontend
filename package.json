@@ -1,6 +1,6 @@
 {
   "name": "gram-frontend",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "description": "Frontend for the Gram Telegram web client",
   "scripts": {
     "build": "webpack --mode development",

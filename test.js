@@ -1,7 +1,10 @@
 // This file contains code that would be inserted by the user.
 window.onload = function() {
   const chat = window.Gram.initialize({
-    apiKey: TEST_API_KEY
+    apiKey: TEST_API_KEY,
+    options: {
+      activeHours: ['10:00', '20:00'],
+    }
   });
   window.chat = chat;
 

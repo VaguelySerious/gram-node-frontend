@@ -9,7 +9,7 @@ window.Gram = {
   initialize: function(settings) {
     settings = objectFallback(settings, defaultSettings);
     const activeHours = settings.options.activeHours;
-    if (activeHours) {
+    if (Array.isArray(activeHours) && activeHours.length === 2 && activeHours.reduce((a, acc) => a && acc, true)) {
       const hoursFromTo = activeHours.map(getTimeFromHours);
       if (!timeWithin(hoursFromTo[0], hoursFromTo[1])) {
         const callbackOnInactive = settings.options.onInactive;
