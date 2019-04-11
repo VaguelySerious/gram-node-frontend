@@ -10,7 +10,9 @@ export default {
     }
   },
   options: {
-    enableAttachment: false
+    enableAttachment: false,
+    activeHours: false, // same as ['00:00', '23:59']
+    onInactive: null
   },
   styles: {
     // Available options coming soon
