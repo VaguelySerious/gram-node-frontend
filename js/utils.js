@@ -31,3 +31,24 @@ export const formatParams = function(params) {
     })
     .join("&")
 }
+
+export const getTimeFromHours = function(hourMinutes) {
+  const arr = hourMinutes.split(':');
+  let ret = new Date();
+  ret.setHours(arr[0]);
+  ret.setMinutes(arr[1]);
+  return ret;
+}
+
+export const timeWithin = function (from, to) {
+  let now = new Date();
+  // If overnight, carry over to next day
+  if (from > to) {
+    const oneDay = 86400000;
+    to = new Date(to.getTime() + oneDay);
+    if (now < from) {
+      now = new Date(now.getTime() + oneDay);
+    }
+  }
+  return from < now && now < to;
+}

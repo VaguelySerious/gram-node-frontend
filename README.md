@@ -93,8 +93,9 @@ All the messages are stored internally as an object like follows:
 
 ```js
 {
-    // Currently this only enables the button, as the feature is not yet finished
-    enableAttachment: false
+  activeHours: ['00:00', '23:59'], // can be also be "false" to always show the chat
+  activeHours: () => {console.log('Inactive')}, // callback called when time outside active hours
+  enableAttachment: false // Currently this only enables the button, as the feature is not yet finished
 }
 ```
 

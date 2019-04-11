@@ -1,13 +1,22 @@
 import "./styles/chat.scss";
 // import "./styles/demo.scss";
 import GramChatTemplate from "./components/gram.html";
-import { getUserID, objectFallback } from "./js/utils.js";
+import { getUserID, objectFallback, getTimeFromHours, timeWithin } from "./js/utils.js";
 import defaultSettings from "./js/defaultSettings.js";
 
 // Provide endpoint for initializing Gram
 window.Gram = {
   initialize: function(settings) {
     settings = objectFallback(settings, defaultSettings);
+    const activeHours = settings.options.activeHours;
+    if (activeHours) {
+      const hoursFromTo = activeHours.map(getTimeFromHours);
+      if (!timeWithin(hoursFromTo[0], hoursFromTo[1])) {
+        const callbackOnInactive = settings.options.onInactive;
+        if (callbackOnInactive) callbackOnInactive();
+        return;
+      }
+    }
     const instance = new GramChatTemplate({
       target: document.querySelector(settings.target),
       data: {
@@ -28,7 +37,7 @@ window.Gram = {
     instance.pull();
     // instance.signal({message: 'load'});
     window.addEventListener('beforeunload', () => {
-      if (instance.inv) {
+      if (instance.get().inv) {
         instance.signal({message: 'unload', hidden: true}, false);
       }
     });
