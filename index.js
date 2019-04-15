@@ -1,14 +1,14 @@
 import "./styles/chat.scss";
 // import "./styles/demo.scss";
 import GramChatTemplate from "./components/gram.html";
-import { getUserID, objectFallback, isActiveHours } from "./js/utils.js";
+import { getUserID, mergeDeep, isActiveHours } from "./js/utils.js";
 import defaultSettings from "./js/defaultSettings.js";
 
 // Provide endpoint for initializing Gram
 window.Gram = {
   initialize: function(settings) {
-    settings = objectFallback(settings, defaultSettings);
-    console.log(settings)
+    settings = mergeDeep(defaultSettings, sesttings);
+
     // Disable chat if not in active Hours
     if (!isActiveHours(settings.options.activeHours)) {
       if (settings.options.onInactive) {
