@@ -7,7 +7,7 @@ import defaultSettings from "./js/defaultSettings.js";
 // Provide endpoint for initializing Gram
 window.Gram = {
   initialize: function(settings) {
-    settings = mergeDeep(defaultSettings, sesttings);
+    settings = mergeDeep(defaultSettings, settings);
 
     // Disable chat if not in active Hours
     if (!isActiveHours(settings.options.activeHours)) {
