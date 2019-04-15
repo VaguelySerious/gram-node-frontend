@@ -35,20 +35,32 @@ export const formatParams = function(params) {
 export const getTimeFromHours = function(hourMinutes) {
   const arr = hourMinutes.split(':');
   let ret = new Date();
-  ret.setHours(arr[0]);
-  ret.setMinutes(arr[1]);
+  ret.setUTCHours(arr[0]);
+  ret.setUTCMinutes(arr[1]);
   return ret;
 }
 
-export const timeWithin = function (from, to) {
-  let now = new Date();
+export const timeWithin = function (time, from, to) {
   // If overnight, carry over to next day
   if (from > to) {
     const oneDay = 86400000;
     to = new Date(to.getTime() + oneDay);
-    if (now < from) {
-      now = new Date(now.getTime() + oneDay);
+    if (time < from) {
+      time = new Date(time.getTime() + oneDay);
     }
   }
-  return from < now && now < to;
+  return from < time && time < to;
+}
+
+export const isActiveHours = function (activeHours) {
+  if (!Array.isArray(activeHours) || activeHours.length !== 2 || !activeHours.reduce((a, acc) => a && acc, true)) {
+    return true;
+  }
+
+  const hoursFromTo = activeHours.map(getTimeFromHours);
+  if (!timeWithin(new Date(), hoursFromTo[0], hoursFromTo[1])) {
+
+    return false;
+  }
+  return true;
 }
